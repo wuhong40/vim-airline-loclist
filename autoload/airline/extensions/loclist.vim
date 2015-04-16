@@ -10,7 +10,7 @@ endfunction
 function! airline#extensions#loclist#apply(...)
   if &filetype == "cpp" || &filetype == "c"
     let w:airline_section_warning = get(w:, 'airline_section_warning', g:airline_section_warning)
-    let w:airline_section_warning .= s:spc.g:airline_left_alt_sep.s:spc.'%{airline#extensions#loclist#get_errors()}'
+    let w:airline_section_warning .= '%{airline#extensions#loclist#get_errors()}'
   endif
 endfunction
 
@@ -24,22 +24,22 @@ function! airline#extensions#loclist#get_errors()
     if i.type == 'E'
       let errors += 1
       if errors == 1
-        let error_line = ' (line: ' . i.lnum . ')'
+        let error_line = i.lnum
       endif
-    else 
+    else
       let warns += 1
       if warns == 1
-        let warn_line = ' (line: ' . i.lnum . ')'
+        let warn_line = i.lnum
       endif
     endif
   endfor
 
   let res = ''
   if errors > 0
-    let res .= 'E: ' . errors . error_line . ' '
+    let res .= 'E' . errors . ':' . error_line . ' '
   endif
   if warns > 0
-    let res .= 'W: ' . warns . warn_line . ' '
+    let res .= 'W' . warns . ':' .  warn_line . ''
   endif
   return res
 endfunction
